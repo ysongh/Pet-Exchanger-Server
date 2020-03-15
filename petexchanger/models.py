@@ -1,4 +1,4 @@
-from petexchanger import db
+from petexchanger import db, ma
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -12,3 +12,10 @@ class User(db.Model):
         self.last_name = last_name
         self.email = email
         self.password = password
+
+class UserSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "first_name", "last_name", "email", "password")
+
+user_schema = UserSchema()
+users_schema = UserSchema(many = True)
