@@ -1,7 +1,7 @@
 from flask import request, jsonify
 
 from petexchanger import app, db
-from petexchanger.models import User, user_schema, users_schema
+from petexchanger.models import User, Pet, user_schema, users_schema, pet_schema
 
 # for testing
 # get all users
@@ -25,7 +25,9 @@ def add_user():
     db.session.add(new_user)
     db.session.commit()
 
-    return user_schema.jsonify({"data": new_user})
+    result = user_schema.dump(new_user)
+
+    return jsonify({"data": result})
 
 # login the user
 @app.route("/login", methods=["POST"])
@@ -48,5 +50,25 @@ def login():
 def user_by_id(id):
     user = User.query.get(id)
     result = user_schema.dump(user)
+
+    return jsonify({"data": result})
+
+# add a new pet
+@app.route("/user/<id>/addpet", methods=["POST"])
+def add_pet(id):
+    pet_name = request.json["pet_name"]
+    favorite_food = request.json["favorite_food"]
+    favorite_toy = request.json["favorite_toy"]
+    location = request.json["location"]
+    bio = request.json["bio"]
+    image_url = request.json["image_url"]
+    user_id = id
+
+    new_pet = Pet(pet_name, favorite_food, favorite_toy, location, bio, image_url, user_id)
+
+    db.session.add(new_pet)
+    db.session.commit()
+
+    result = pet_schema.dump(new_pet)
 
     return jsonify({"data": result})
