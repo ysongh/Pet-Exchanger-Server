@@ -26,3 +26,19 @@ def add_user():
     db.session.commit()
 
     return user_schema.jsonify(new_user)
+
+# login the user
+@app.route("/login", methods=["POST"])
+def login():
+    email = request.json["email"]
+    password = request.json["password"]
+
+    user = User.query.filter_by(email = email).first()
+
+    if user is None:
+        return jsonify({"error": "This user does not exist"})
+
+    if user.password != password:
+        return jsonify({"error": "Invalid password"})
+
+    return jsonify({"data": user.email})
