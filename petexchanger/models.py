@@ -29,10 +29,20 @@ class Pet(db.Model):
     bio = db.Column(db.String(300))
     image_url = db.Column(db.String(100))
 
-    def __init__(self, pet_name, favorite_food, favorite_toy, location, bio, image_url):
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable = False)
+
+    def __init__(self, pet_name, favorite_food, favorite_toy, location, bio, image_url, user_id):
         self.pet_name = pet_name
         self.favorite_food = favorite_food
         self.favorite_toy = favorite_toy
         self.location = location
         self.bio = bio
         self.image_url = image_url
+        self.user_id = user_id
+
+class PetSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "pet_name", "favorite_food", "favorite_toy", "location", "bio", "image_url", "user_id")
+
+pet_schema = PetSchema()
+pets_schema = PetSchema(many = True)
