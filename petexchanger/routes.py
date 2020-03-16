@@ -10,7 +10,7 @@ def get_users():
     all_users = User.query.all()
     result = users_schema.dump(all_users)
 
-    return jsonify(result)
+    return jsonify({"data": result})
 
 # create new user
 @app.route("/signup", methods=["POST"])
@@ -25,7 +25,7 @@ def add_user():
     db.session.add(new_user)
     db.session.commit()
 
-    return user_schema.jsonify(new_user)
+    return user_schema.jsonify({"data": new_user})
 
 # login the user
 @app.route("/login", methods=["POST"])
@@ -42,3 +42,11 @@ def login():
         return jsonify({"error": "Invalid password"})
 
     return jsonify({"data": user.email})
+
+# get user by id
+@app.route("/user/<id>", methods=["GET"])
+def user_by_id(id):
+    user = User.query.get(id)
+    result = user_schema.dump(user)
+
+    return jsonify({"data": result})
