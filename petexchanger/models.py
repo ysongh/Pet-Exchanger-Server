@@ -19,3 +19,20 @@ class UserSchema(ma.Schema):
 
 user_schema = UserSchema()
 users_schema = UserSchema(many = True)
+
+class Pet(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    pet_name = db.Column(db.String(30))
+    favorite_food = db.Column(db.String(50))
+    favorite_toy = db.Column(db.String(50))
+    location = db.Column(db.String(50))
+    bio = db.Column(db.String(300))
+    image_url = db.Column(db.String(100))
+
+    def __init__(self, pet_name, favorite_food, favorite_toy, location, bio, image_url):
+        self.pet_name = pet_name
+        self.favorite_food = favorite_food
+        self.favorite_toy = favorite_toy
+        self.location = location
+        self.bio = bio
+        self.image_url = image_url
