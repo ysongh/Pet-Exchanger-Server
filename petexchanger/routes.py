@@ -1,7 +1,16 @@
 from flask import request, jsonify
 
 from petexchanger import app, db
-from petexchanger.models import User, user_schema
+from petexchanger.models import User, user_schema, users_schema
+
+# for testing
+# get all users
+@app.route("/users")
+def get_users():
+    all_users = User.query.all()
+    result = users_schema.dump(all_users)
+
+    return jsonify(result)
 
 # create new user
 @app.route("/signup", methods=["POST"])
