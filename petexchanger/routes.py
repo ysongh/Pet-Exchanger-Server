@@ -46,7 +46,7 @@ def login():
     return jsonify({"data": user.email})
 
 # get user by id
-@app.route("/user/<id>", methods=["GET"])
+@app.route("/user/<id>")
 def user_by_id(id):
     user = User.query.get(id)
     result = user_schema.dump(user)
@@ -115,5 +115,13 @@ def add_post(id):
     db.session.commit()
 
     result = post_schema.dump(new_post)
+
+    return jsonify({"data": result})
+
+# get post by id
+@app.route("/post/<id>")
+def post_by_id(id):
+    post = Post.query.get(id)
+    result = post_schema.dump(post)
 
     return jsonify({"data": result})
