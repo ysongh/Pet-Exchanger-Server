@@ -1,7 +1,7 @@
 from flask import request, jsonify
 
 from petexchanger import app, db
-from petexchanger.models import User, Pet, user_schema, users_schema, pet_schema
+from petexchanger.models import User, Pet, user_schema, users_schema, pet_schema, pets_schema
 
 # for testing
 # get all users
@@ -50,6 +50,14 @@ def login():
 def user_by_id(id):
     user = User.query.get(id)
     result = user_schema.dump(user)
+
+    return jsonify({"data": result})
+
+# get all pets
+@app.route("/pets")
+def get_pets():
+    all_pets = Pet.query.all()
+    result = pets_schema.dump(all_pets)
 
     return jsonify({"data": result})
 
