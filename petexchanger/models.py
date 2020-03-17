@@ -1,4 +1,5 @@
 from petexchanger import db, ma
+from datetime import datetime
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -25,7 +26,7 @@ class Pet(db.Model):
     pet_name = db.Column(db.String(30))
     favorite_food = db.Column(db.String(50))
     favorite_toy = db.Column(db.String(50))
-    location = db.Column(db.String(50))
+    location = db.Column(db.String(100))
     bio = db.Column(db.String(300))
     image_url = db.Column(db.String(100))
 
@@ -46,3 +47,25 @@ class PetSchema(ma.Schema):
 
 pet_schema = PetSchema()
 pets_schema = PetSchema(many = True)
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    item_name = db.Column(db.String(50))
+    wants = db.Column(db.String(300))
+    description = db.Column(db.String(300))
+    location = db.Column(db.String(100))
+    tags = db.Column(db.String(100))
+    image_url = db.Column(db.String(100))
+    date_posted = db.Column(db.DateTime, default = datetime.utcnow)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable = False)
+
+    def __init__(self, item_name, wants, description, location, tags, image_url, date_posted, user_id):
+        self.item_name = item_name
+        self.wants = wants
+        self.description = description
+        self.location = location
+        self.tags = tags
+        self.image_url = image_url
+        self.date_posted = date_posted
+        self.user_id = user_id
