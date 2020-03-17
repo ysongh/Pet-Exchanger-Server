@@ -72,3 +72,11 @@ def add_pet(id):
     result = pet_schema.dump(new_pet)
 
     return jsonify({"data": result})
+
+# get pet by id
+@app.route("/pet/<id>", methods=["GET"])
+def pet_by_id(id):
+    pet = Pet.query.get(id)
+    result = pet_schema.dump(pet)
+
+    return jsonify({"data": result})
