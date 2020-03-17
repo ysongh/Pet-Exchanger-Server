@@ -60,19 +60,18 @@ class Post(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable = False)
 
-    def __init__(self, item_name, wants, description, location, tags, image_url, date_posted, user_id):
+    def __init__(self, item_name, wants, description, location, tags, image_url, user_id):
         self.item_name = item_name
         self.wants = wants
         self.description = description
         self.location = location
         self.tags = tags
         self.image_url = image_url
-        self.date_posted = date_posted
         self.user_id = user_id
 
 class PostSchema(ma.Schema):
     class Meta:
         fields = ("id", "item_name", "wants", "description", "location", "tags", "image_url", "date_posted", "user_id")
 
-pet_schema = PostSchema()
-pets_schema = PostSchema(many = True)
+post_schema = PostSchema()
+posts_schema = PostSchema(many = True)
