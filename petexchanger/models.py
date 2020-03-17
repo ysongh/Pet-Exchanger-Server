@@ -69,3 +69,10 @@ class Post(db.Model):
         self.image_url = image_url
         self.date_posted = date_posted
         self.user_id = user_id
+
+class PostSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "item_name", "wants", "description", "location", "tags", "image_url", "date_posted", "user_id")
+
+pet_schema = PostSchema()
+pets_schema = PostSchema(many = True)
