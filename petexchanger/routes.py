@@ -1,6 +1,6 @@
 from flask import request, jsonify
 
-from petexchanger import app, db
+from petexchanger import app, db, bcrypt
 from petexchanger.models import User, Pet, Post, user_schema, users_schema, pet_schema, pets_schema, post_schema, posts_schema
 
 # for testing
@@ -20,7 +20,9 @@ def add_user():
     email = request.json["email"]
     password = request.json["password"]
 
-    new_user = User(first_name, last_name, email, password)
+    hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
+
+    new_user = User(first_name, last_name, email, hashed_password)
 
     db.session.add(new_user)
     db.session.commit()
