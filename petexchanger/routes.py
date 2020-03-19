@@ -41,8 +41,8 @@ def login():
 
     if user is None:
         return jsonify({"error": "This user does not exist"})
-
-    if user.password != password:
+    
+    if bcrypt.check_password_hash(user.password, password) is False:
         return jsonify({"error": "Invalid password"})
 
     return jsonify({"data": user.email})
